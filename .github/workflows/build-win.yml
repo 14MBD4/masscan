@@ -12,13 +12,13 @@ jobs:
       - name: Setup MSVC Compiler
         uses: ilammy/msvc-dev-cmd@v1
 
-      - name: Build Masscan EXE
+      - name: Build Masscan with Official VS Project
         shell: cmd
         run: |
-          cl /O2 /W3 /DWIN32 /DNDEBUG src\*.c ws2_32.lib iphlpapi.lib /Fe:masscan.exe
+          msbuild vs10\masscan.sln /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=10.0
 
       - name: Upload Masscan EXE
         uses: actions/upload-artifact@v5
         with:
           name: masscan-windows-x64
-          path: masscan.exe
+          path: bin\masscan.exe
