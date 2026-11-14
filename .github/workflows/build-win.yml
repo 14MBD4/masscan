@@ -1,0 +1,22 @@
+name: Build Masscan Windows EXE
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Build Masscan with MSVC
+        shell: cmd
+        run: |
+          call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          cl /O2 /W3 /DWIN32 /DNDEBUG src\*.c ws2_32.lib iphlpapi.lib /Fe:masscan.exe
+
+      - name: Upload Masscan EXE
+        uses: actions/upload-artifact@v5
+        with:
+          name: masscan-windows-x64
+          path: masscan.exe
