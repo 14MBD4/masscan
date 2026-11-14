@@ -9,16 +9,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Setup MSVC Compiler
-        uses: ilammy/msvc-dev-cmd@v1
-
-      - name: Build Masscan with Official VS Project
-        shell: cmd
+      - name: Build Masscan with MinGW GCC
+        shell: msys2 {0}
         run: |
-          msbuild vs10\masscan.sln /p:Configuration=Release /p:Platform=x64 /p:PlatformToolset=v143 /p:WindowsTargetPlatformVersion=10.0
+          pacman -S --noconfirm --needed mingw-w64-x86_64-gcc make
+          mingw32-make -j4
 
       - name: Upload Masscan EXE
         uses: actions/upload-artifact@v5
         with:
           name: masscan-windows-x64
-          path: bin\masscan.exe
+          path: bin/masscan.exe
