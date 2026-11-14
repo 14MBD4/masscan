@@ -9,10 +9,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v5
 
-      - name: Build Masscan with MinGW GCC
-        shell: msys2 {0}
+      - name: Build Masscan (x64) with MinGW GCC
         run: |
-          pacman -S --noconfirm --needed mingw-w64-x86_64-gcc make
+          gcc --version
           mingw32-make -j4
 
       - name: Upload Masscan EXE
